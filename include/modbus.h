@@ -3,6 +3,9 @@
 
 
 #include <string>
+#include <sys/socket.h>
+
+
 #include "util.h"
 
 namespace Modbus {
@@ -48,10 +51,17 @@ namespace Modbus {
         bool checkConnection() {return connected;};
         void resetMsgId() {msg_id_counter = 0;};
         int  getSlaveId() {return slave_id;};
+        int getId() {return id;};
 
-        void setHost(std::string host){host_ = host;};
-        void setPort(int port){port_ = port;};
+
+        void setHost(std::string host){host_ = host; connected = false;};
+        void setPort(int port){port_ = port; connected = false;};
         void setSlaveId(int id){slave_id = id;};
+
+
+        void connect();
+
+
     private:
         std::string host_;
         uint16_t port_;
@@ -59,6 +69,7 @@ namespace Modbus {
         bool connected;
         int msg_id_counter;
         int slave_id;
+        int id;
     };
 
 
