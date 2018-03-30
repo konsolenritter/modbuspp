@@ -1,5 +1,6 @@
 
 ### CMake template
 CMakeLists.txt
-.idea
-
+.idea/
+.DS_Store
+cmake-build-debug/
