@@ -131,7 +131,7 @@ void modbus::modbus_write(int address, int amount, int func, uint16_t *value) {
     } else if(func == WRITE_REGS){
         uint8_t to_send[13 + 2 * amount];
         modbus_build_request(to_send, address, func);
-        to_send[5] = (uint8_t) (5 + 2 * amount);
+        to_send[5] = (uint8_t) (7 + 2 * amount);
         to_send[10] = (uint8_t) (amount >> 8);
         to_send[11] = (uint8_t) (amount & 0x00FF);
         to_send[12] = (uint8_t) (2 * amount);
