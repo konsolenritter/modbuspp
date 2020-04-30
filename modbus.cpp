@@ -74,6 +74,7 @@ bool modbus::modbus_connect() {
 	timeout.tv_sec  = 20;  // after 20 seconds connect() will timeout
 	timeout.tv_usec = 0;
 	setsockopt(_socket, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
+	setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 
     _server.sin_family = AF_INET;
     _server.sin_addr.s_addr = inet_addr(HOST.c_str());
@@ -195,6 +196,8 @@ void modbus::modbus_read_holding_registers(int address, int amount, uint16_t *bu
         modbus_read(address, amount, READ_REGS);
         uint8_t to_rec[MAX_MSG_LENGTH];
         ssize_t k = modbus_receive(to_rec);
+		if (k == -1)
+			throw modbus_connlost_exception();
         try {
             modbus_error_handle(to_rec, READ_REGS);
             for(int i = 0; i < amount; i++) {
@@ -228,6 +231,8 @@ void modbus::modbus_read_input_registers(int address, int amount, uint16_t *buff
         modbus_read(address, amount, READ_INPUT_REGS);
         uint8_t to_rec[MAX_MSG_LENGTH];
         ssize_t k = modbus_receive(to_rec);
+		if (k == -1)
+			throw modbus_connlost_exception();
         try {
             modbus_error_handle(to_rec, READ_INPUT_REGS);
             for(int i = 0; i < amount; i++) {
@@ -261,6 +266,8 @@ void modbus::modbus_read_coils(int address, int amount, bool *buffer) {
         modbus_read(address, amount, READ_COILS);
         uint8_t to_rec[MAX_MSG_LENGTH];
         ssize_t k = modbus_receive(to_rec);
+		if (k == -1)
+			throw modbus_connlost_exception();
         try {
             modbus_error_handle(to_rec, READ_COILS);
             for(int i = 0; i < amount; i++) {
@@ -293,6 +300,8 @@ void modbus::modbus_read_input_bits(int address, int amount, bool* buffer) {
         modbus_read(address, amount, READ_INPUT_BITS);
         uint8_t to_rec[MAX_MSG_LENGTH];
         ssize_t k = modbus_receive(to_rec);
+		if (k == -1)
+			throw modbus_connlost_exception();
         try {
             modbus_error_handle(to_rec, READ_INPUT_BITS);
             for(int i = 0; i < amount; i++) {
