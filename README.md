@@ -1,10 +1,11 @@
-# MODBUS++  [(MODBSPP)](https://github.com/fanzhe98/modbuspp.git)   V0.1
+# MODBUS++  [(MODBSPP)](https://github.com/konsolenritter/modbuspp.git)   V0.1
 MODBUS++ (MODBUSPP) is an open source c++ class/ library making an encapsulation of [Modbus](https://en.wikipedia.org/wiki/Modbus) TCP Protocol published by Modicon (Now Schneider Electirc).
 
 MODBUS++ is based on Object-Oriented Programming. While it keeps the efficiency of C++ Code , it provides a higher level of abstraction than other C Modbus Library. Generally, it is easier for programmers to use in their development requiring MODBUS TCP Protocol. Compared to other known modbus library, such as libmodbus, MODBUS++ is providing a more OOP friendly syntaxes.
 
 The code has dependencies on libary on Linux for TCP/IP, if you want to use this in Windows, please check out winsock2 and rewrite portion of code of socket to be compatible with Windows operating system.
 
+Credits go to user [fanzhe98](https://github.com/fanzhe98/modbuspp.git) who contributed all former stuff and code of this library.
 ---
 
 # 1 Usage
@@ -13,8 +14,8 @@ To use the library, please follow the steps below. Please note current library i
 ## 1.1 Download
 Download the MODBUS++, you can:
    - Open your command window (cmd, shell, bash, etc.)
-        > git clone https://github.com/fanzhe98/modbuspp.git
-   - Directly Download From the [Page](https://github.com/fanzhe98/modbuspp.git)
+        > git clone https://github.com/konsolenritter/modbuspp.git
+   - Directly Download From the [Page](https://github.com/konsolenritter/modbuspp.git)
 
 ## 1.2 Include In your code
 To include Modbus++ in your code, just simply type this in the start of your program:
@@ -25,9 +26,9 @@ To include Modbus++ in your code, just simply type this in the start of your pro
 
 # 2 Getting Started with a Example
 ## 2.1 Getting the Example
-Checkout [example.cpp](https://github.com/fanzhe98/modbuspp/blob/master/example.cpp) for a example usage of MODBUSPP. Please note that the code should be compiled using c++11 compilers.
+Checkout [example.cpp](https://github.com/konsolenritter/modbuspp/blob/master/example.cpp) for a example usage of MODBUSPP. Please note that the code should be compiled using c++11 compilers.
 ## 2.2 Tutorials
-Let's break the code down, before you read this, BE SURE to have a reference to [example.cpp](https://github.com/fanzhe98/modbuspp/blob/master/example.cpp). The example shows basic usages of how to create a modbus client connecting to a modbus server and perform modbus operations in your program.
+Let's break the code down, before you read this, BE SURE to have a reference to [example.cpp](https://github.com/konsolenritter/modbuspp/blob/master/example.cpp). The example shows basic usages of how to create a modbus client connecting to a modbus server and perform modbus operations in your program.
 ### Include the header
 
 To start with, be sure to include the modbus.h header in your program
