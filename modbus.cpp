@@ -69,6 +69,11 @@ bool modbus::modbus_connect() {
     } else {
         std::cout <<"Socket Opened Successfully" << std::endl;
     }
+	
+	struct timeval timeout;
+	timeout.tv_sec  = 20;  // after 20 seconds connect() will timeout
+	timeout.tv_usec = 0;
+	setsockopt(_socket, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
 
     _server.sin_family = AF_INET;
     _server.sin_addr.s_addr = inet_addr(HOST.c_str());
@@ -121,13 +126,14 @@ void modbus::modbus_build_request(uint8_t *to_send, int address, int func) {
  * @param value     Data to Be Written
  */
 void modbus::modbus_write(int address, int amount, int func, uint16_t *value) {
+	int status = 0;
     if(func == WRITE_COIL || func == WRITE_REG) {
         uint8_t to_send[12];
         modbus_build_request(to_send, address, func);
         to_send[5] = 6;
         to_send[10] = (uint8_t) (value[0] >> 8);
         to_send[11] = (uint8_t) (value[0] & 0x00FF);
-        modbus_send(to_send, 12);
+        status = modbus_send(to_send, 12);
     } else if(func == WRITE_REGS){
         uint8_t to_send[13 + 2 * amount];
         modbus_build_request(to_send, address, func);
@@ -139,7 +145,7 @@ void modbus::modbus_write(int address, int amount, int func, uint16_t *value) {
             to_send[13 + 2 * i] = (uint8_t) (value[i] >> 8);
             to_send[14 + 2 * i] = (uint8_t) (value[i] & 0x00FF);
         }
-        modbus_send(to_send, 13 + 2 * amount);
+        status = modbus_send(to_send, 13 + 2 * amount);
     } else if(func == WRITE_COILS) {
         uint8_t to_send[14 + (amount -1) / 8 ];
         modbus_build_request(to_send, address, func);
@@ -150,8 +156,11 @@ void modbus::modbus_write(int address, int amount, int func, uint16_t *value) {
         for(int i = 0; i < amount; i++) {
             to_send[13 + (i - 1) / 8] += (uint8_t) (value[i] << (i % 8));
         }
-        modbus_send(to_send, 14 + (amount - 1) / 8);
+        status = modbus_send(to_send, 14 + (amount - 1) / 8);
     }
+	if (status == -1)
+        throw modbus_connlost_exception();
+
 }
 
 

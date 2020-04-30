@@ -174,5 +174,20 @@ public:
 };
 
 
+/// Modbus Connection Lost Exception
+/**
+ * Connection Lost
+ *
+ * Throwed when the connection is lost during send.
+ */
+class modbus_connlost_exception: public modbus_exception {
+public:
+    virtual const char* what() const throw()
+    {
+        return "Connection lost!";
+    }
+};
+
+
 
 #endif //MODBUSPP_MODBUS_EXCEPTION_H
